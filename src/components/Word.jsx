@@ -7,7 +7,7 @@ const Word = ({children, range, progress}) => {
     
         return (
             <span className="word" >
-                <span className="shadow">{children}</span>
+                <span className="shadow" aria-hidden="true">{children}</span>
                 <motion.span style={{opacity: opacity}} >
                     {children}
                 </motion.span>

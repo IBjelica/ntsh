@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
-import { motion } from 'framer-motion';
+import { motion, useReducedMotion } from 'framer-motion';
 import Paragraph from '../Paragraph';
 import '../../assets/About.scss';
 import Socials from '../Socials';
@@ -20,6 +20,8 @@ const About = (props) => {
     const bgColor = isHoveredSocials ? hoverGradient : gradient
 
     const isTouch = window.matchMedia("(pointer: coarse)").matches
+    // With "reduce motion" on, the reveal circle jumps to the cursor instead of easing after it.
+    const reduceMotion = useReducedMotion()
     
     const titleRef = useRef(null)
     const title = "we embrace the art of the unseen"
@@ -67,11 +69,12 @@ const About = (props) => {
         >
             <motion.div
                 className="about mask"
+                aria-hidden="true"
                 animate={{
                     WebkitMaskSize: `${isTouch ? 230 : size}px`,
                     WebkitMaskPosition: `${isTouch ? 80 : mousePosition.x - size/2}px ${isTouch ? 280 - sectionTop : mousePosition.y - size/2 - sectionTop }px`,
                 }}
-                transition={{type: "tween", ease: "backOut"}}
+                transition={reduceMotion ? {duration: 0} : {type: "tween", ease: "backOut"}}
             >
                 <h2 ref={titleRef} className="title rabbit">
                     {splitTitle.map((w, i) => {
@@ -85,7 +88,7 @@ const About = (props) => {
                     <Paragraph text={paragraph1} />
                 </div>
 
-                <Socials />
+                <Socials decorative />
 
                 <motion.div
                     className="gradient"
@@ -113,7 +116,8 @@ const About = (props) => {
                 </h2>
                 
                 <div className="paragraphs">
-                    <Paragraph text={paragraph1} start="0.9" end="0.6" />
+                    {/* Without start/end the paragraph renders fully, skipping the word-by-word scroll fade. */}
+                    <Paragraph text={paragraph1} start={reduceMotion ? undefined : "0.9"} end={reduceMotion ? undefined : "0.6"} />
                 </div>
 
                 <Socials setIsHovered={setIsHoveredSocials} />

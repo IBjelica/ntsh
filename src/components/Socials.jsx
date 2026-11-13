@@ -1,7 +1,9 @@
 import '../assets/Socials.scss';
 
 const Socials = (props) => {
-    const { setIsHovered } = props
+    // `decorative` marks the copy inside the hidden reveal layer: it must not be
+    // reachable with Tab, since screen readers and keyboards skip that layer.
+    const { setIsHovered, decorative } = props
     const links = [
         { text: 'Shoot an email our way', href: 'mailto:contact@ntsh.online' }
     ]
@@ -17,8 +19,9 @@ const Socials = (props) => {
                                 key={i}
                                 className="socials__link"
                                 href={link.href}
-                                onMouseEnter={() => setIsHovered(true)}
-                                onMouseLeave={() => setIsHovered(false)}
+                                tabIndex={decorative ? -1 : undefined}
+                                onMouseEnter={() => setIsHovered?.(true)}
+                                onMouseLeave={() => setIsHovered?.(false)}
                             >
                                 {link.text}
                             </a>

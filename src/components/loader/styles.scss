@@ -45,3 +45,9 @@
         font-family: 'RabbitHole';
     }
 }
+// The letters flicker between two fonts; stop that for visitors who ask for less motion.
+@media (prefers-reduced-motion: reduce) {
+    .loader .transition-container .stair {
+        animation: none;
+    }
+}

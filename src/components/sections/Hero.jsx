@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from "react";
-import { motion } from "framer-motion";
+import { motion, useReducedMotion } from "framer-motion";
 import '../../assets/Hero.scss';
 
 const Hero = (props) => {
@@ -9,6 +9,8 @@ const Hero = (props) => {
     const size = isHovered ? 300 : 130
 
     const isTouch = window.matchMedia("(pointer: coarse)").matches
+    // With "reduce motion" on, the reveal circle jumps to the cursor instead of easing after it.
+    const reduceMotion = useReducedMotion()
 
     const titleRef = useRef(null)
     const title = "Nothing to see here"
@@ -50,11 +52,12 @@ const Hero = (props) => {
         >
             <motion.div
                 className="hero-section mask"
+                aria-hidden="true"
                 animate={{
                     WebkitMaskSize: `${size}px`,
                     WebkitMaskPosition: `${mousePosition.x - size/2}px ${mousePosition.y - size/2}px`,
                 }}
-                transition={{type: "tween", ease: "backOut"}}
+                transition={reduceMotion ? {duration: 0} : {type: "tween", ease: "backOut"}}
             >
                 <h1 className="title"
                     ref={titleRef}

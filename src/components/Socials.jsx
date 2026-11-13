@@ -3,7 +3,7 @@ import '../assets/Socials.scss';
 const Socials = (props) => {
     const { setIsHovered } = props
     const links = [
-        { text: 'Email', href: 'mailto:contact@ntsh.online' }
+        { text: 'Shoot an email our way', href: 'mailto:contact@ntsh.online' }
     ]
 
     return (
